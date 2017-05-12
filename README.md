@@ -5,6 +5,6 @@ Features to be added:
 - fights
 - fight panel
 - create spellls
-- level up
 - damage calculation
 - item drops
+- exp and level up
