@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+	<title>Dungeon Crawler RPG</title>
+	<link rel ="stylesheet" href ="css/bootstrap.min.css">
+	<link rel="stylesheet" href = "css/style.css">
+</head>
+
+<body>
+	<div id="game-panel">
+		<canvas id = "canvas" width = 500 height = 400></canvas>
+		<div id="button-group">
+			<div class ="divider"></div>
+			<div class="row">
+				<div class="col-md-6">
+					<button id = "up-btn" type = "button" class="btn"><i class="glyphicon glyphicon-arrow-up"></i></button>
+					<button id = "down-btn" type = "button" class="btn"><i class="glyphicon glyphicon-arrow-down"></i></button>
+				</div>
+				<div class="col-md-6">
+					<button id = "left-btn" type = "button" class="btn"><i class="glyphicon glyphicon-arrow-left"></i></button>
+					<button id = "right-btn" type = "button" class="btn"><i class="glyphicon glyphicon-arrow-right"></i></button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div id="event-panel">
+		<table>
+			<tr><th><span id="round"></span></th></tr>
+			<tr><td>Second Row</td></tr>
+			<tr><td>Third Row</td></tr>
+		</table>
+	</div>
+
+	<script src = "js/jquery-1.11.3.min.js" type = "text/javascript"></script>
+	<script src = "js/bootstrap.min.js" type = "text/javascript"></script>
+	<script src = "js/main.js" type = "text/javascript"></script>
+</body>
+</html>
