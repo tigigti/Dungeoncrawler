@@ -8,3 +8,4 @@ Features to be added:
 - damage calculation
 - item drops
 - exp and level up
+- Enemy Collision
