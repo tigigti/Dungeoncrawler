@@ -17,7 +17,7 @@ var weapon = new gear(1,"Dagger","weapon");
 
 var exp = 0;
 var expNeeded = 100;
-var playerLevel = 2;
+var playerLevel = 1;
 
 var directions = ["up","down","left","right"];
 var upgradeColor = ["blue","#80bfff","#80ffff","#66ffb3","#d9ff66","#ffff1a","#ffdf80","#ff9f80","#ff794d","Lime"];
