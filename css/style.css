@@ -15,10 +15,10 @@
 
 #event-panel {
 	text-align: left;
-	position: absolute;
-	top:0;
-	left: 0;
+	position: relative;
 	padding: 30px;
+	width: 550px;
+	margin: 0 auto;
 }
 
 
