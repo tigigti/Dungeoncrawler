@@ -82,22 +82,74 @@ function Character(width, height, color, x, y, type){
 	this.move = function(dir){
 		if(dir == "up"){
 			if(this.y != 0 && !(isColliding(this.x, this.y-20, this.width, this.height))){
-				this.y = this.y - 20;
+				if(this.type == "enemy"){
+					if(!bossHere(this.x,this.y-20)){
+						this.y = this.y - 20;
+					}
+				}
+				else if(this.type == "player"){
+					this.y = this.y-20;
+				}
+				else if(this.type == "boss"){
+					if(!isCollidingWithChar(this.x,this.y-20)){
+						this.y = this.y-20;
+					}
+					
+				}
 			}
 		}
 		else if(dir == "down"){
 			if(this.y != canvas.height-this.height && !(isColliding(this.x, this.y+20, this.width, this.height))) {
-				this.y = this.y + 20;
+				if(this.type == "enemy"){
+					if(!bossHere(this.x,this.y+20)){
+						this.y = this.y + 20;
+					}
+				}
+				else if(this.type == "player"){
+					this.y = this.y+20;
+				}
+				else if(this.type == "boss"){
+					if(!isCollidingWithChar(this.x,this.y+20)){
+						this.y = this.y+20;
+					}
+					
+				}
 			}
 		}
 		else if(dir == "left"){
 			if(this.x != 0 && !(isColliding(this.x-20, this.y, this.width, this.height))){
-				this.x = this.x - 20;
+				if(this.type == "enemy"){
+					if(!bossHere(this.x-20,this.y)){
+						this.x = this.x - 20;
+					}
+				}
+				else if(this.type == "player"){
+					this.x = this.x-20;
+				}
+				else if(this.type == "boss"){
+					if(!isCollidingWithChar(this.x-20,this.y)){
+						this.x = this.x-20;
+					}
+					
+				}
 			}
 		}
 		else if(dir == "right"){
 			if(this.x != canvas.width-this.width && !(isColliding(this.x+20, this.y, this.width, this.height))){
-				this.x = this.x + 20;
+				if(this.type == "enemy"){
+					if(!bossHere(this.x+20,this.y)){
+						this.x = this.x + 20;
+					}
+				}
+				else if(this.type == "player"){
+					this.x = this.x+20;
+				}
+				else if(this.type == "boss"){
+					if(!isCollidingWithChar(this.x+20,this.y)){
+						this.x = this.x+20;
+					}
+					
+				}
 			}
 		}
         if(this.type == "player"){
@@ -159,9 +211,7 @@ function keyListener(){
 }
 
 function update(){
-	//TODO: Check for collision. If Player collides, fight begins.
-	//Don't let enemies and boss collide.
-	//If player collides set fighting = true
+	//TODO:
 	//For Fighting: Clear Canvas. Display player and enemy on Canvas with their respective health. 
 	//Make an Update function for fighting. When fight starts, the player can choose with what to attack.
 	//After he attacked the Enemy attacks in the same iteration. Afterwards wait for user input again and call the fightUpdate again.
@@ -199,6 +249,12 @@ function update(){
 	    };
 	    boss.draw();
 		drawWalls();
+	}
+	
+	
+	if(isCollidingWithChar(player.x, player.y) || bossHere(player.x, player.y)){
+		//fighting = true;
+		alert("fight!");
 	}
 }
 
@@ -242,6 +298,15 @@ function updateCollide(x,y,i){
 	return false;
 }
 
+function bossHere(x,y){
+	if(x == boss.x && y == boss.y){
+		return true;
+	}
+	else{
+		return false;
+	}
+}
+
 function createLevel(){
     var randNr = Math.floor((Math.random() * 20) + 1);
     for(var i = 0; i < randNr; i++){
@@ -270,6 +335,16 @@ function spawnEnemies(){
         }
     }
     
+}
+
+function getEnemyAtPosition(x,y){
+	for(var i = 0; i < allCharacters.length; i++){
+		var temp = allCharacters[i];
+		if(x == temp.x && y == temp.y){
+			return allCharacters[i];
+			break;
+		}
+	}
 }
 
 function upgrade(char){
