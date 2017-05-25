@@ -29,7 +29,8 @@
 				<tr>
 					<th><span id="round"></span></th>
 	                <th><span id="hp"></span></th>
-	                <th><span id="player-level">1</span></th>
+					<th><span id="mana"></span></th>
+	                <th><span id="player-level"></span></th>
 	                <th><span id="exp"></span></th>
 				</tr>
 			</thead>
@@ -60,7 +61,8 @@
         
     <div id="pseudo-console">
 	    <span id="player-did"></span><br>
-	    <span id="enemy-did"></span>
+	    <span id="enemy-did"></span><br>
+		<button id="next-level" type="button" class="btn">Next Level</button>
     </div>
         
     <div id="spell-creation">
@@ -70,10 +72,13 @@
     		<div class="col-md-6">Name of the Spell:</div><div class="col-md-6"><input type="text" name="spellname"></div>
     	</div>
     	<div class="row">
-    		<div class="col-md-6">Type of the Spell:</div><div class="col-md-6"><input type="radio" name="spelltype" value="dmg">Damaging<br><input type="radio" name="spelltype" value="heal">Healing</div>
+    		<div class="col-md-6">Type of the Spell:</div><div class="col-md-6"><select id="spelltype"><option value="dmg">Damaging</option><option value="heal">Healing</option><option value="upgrade">Enhancing</option></select></div>
     	</div>
     	<div class="row">
-    		<div class="col-md-6">Power of the Spell in %:</div><div class="col-md-6"><input type="text" name="spellpower"></div>
+    		<div class="col-md-6">Power of the Spell:</div><div class="col-md-6"><input type="range" name="spellpower" min="1" max="100" step = "1" value="50"></div>
+    	</div>
+		<div class="row">
+    		<div class="col-md-6">Upgrade:</div><div class="col-md-6"><select id="upgradetype"><option value="strength">Strength</option><option value="dexterity">Dexterity</option><option value="willpower">Willpower</option><option value="magic">Magic</option></select></div>
     	</div>
     	<button type="button" class="btn" id="spell-btn">OK</button>
     </form>
