@@ -1,0 +1,112 @@
+@CHARSET "ISO-8859-1";
+
+#canvas {
+	border: 1px solid black;
+}
+
+#game-panel {
+	text-align: center;
+	width: 100%;
+}
+
+#button-group, #game-panel, #fighting-buttons {
+	position: relative;
+}
+
+#event-panel {
+	text-align: left;
+	position: relative;
+	padding: 30px;
+	width: 550px;
+	margin: 0 auto;
+}
+
+
+#button-group, #fighting-buttons {
+	width: 500px;
+	margin: 0 auto;
+}
+
+button[id$="-btn"], .btn{
+	background-color: #42cbf4;
+	color: white;
+	position: relative;
+	border-radius: 0;
+}
+
+button[id$="-btn"]:focus, .btn:focus {
+	color: white;
+}
+
+button[id$="-btn"]:hover, .btn:hover {
+	color: #404040;
+}
+
+#up-btn{
+	top: 0;
+}
+
+#down-btn {
+	bottom: 0;
+}
+
+#left-btn {
+	left: 0;
+}
+
+#right-btn {
+	right: 0;
+}
+
+
+.divider {
+	position: absolute;
+	left: 50%;
+	border-right: 1px solid black;
+	height: 100%;
+}
+
+#spell-creation, #stat-panel, #help-panel {
+	text-align: left;
+	width: 550px;
+	border: 5px solid #42cbf4;
+	position: absolute;
+	top: 50%;
+	left: 0;
+	right: 0;
+	margin: auto;
+	background-color: #404040;
+	padding: 10px;
+	color: white;
+}
+
+#spell-creation input, #spell-creation select{
+	color: black;
+}
+
+#spell-creation h1, #stat-panel h1, #help-panel h1 {
+	margin: 0;
+	padding: 0;
+	margin-bottom: 15px;
+	text-align: center;
+}
+
+#fighting-buttons {
+	text-align: left;
+}
+
+#fighting-buttons .cast-spell {
+	margin: 2px;
+}
+#fighting-buttons .cast-spell:disabled {
+	background-color: grey;
+}
+
+#pseudo-console {
+	position: relative;
+	font-size: 25px;
+}
+
+#help-panel {
+	top: 20%;
+}

@@ -29,12 +29,14 @@
 				<tr>
 					<th><span id="round"></span></th>
 	                <th><span id="hp"></span></th>
-	                <th><span id="player-level">1</span></th>
-	                <th><span id="exp">test</span></th>
+					<th><span id="mana"></span></th>
+	                <th><span id="player-level"></span></th>
+	                <th><span id="exp"></span></th>
 				</tr>
 			</thead>
 		</table>
 	</div>
+	
 		<canvas id = "canvas" width = 500 height = 400></canvas>
 		<div id="button-group">
 			<div class ="divider"></div>
@@ -49,10 +51,71 @@
 				</div>
 			</div>
 		</div>
+		<div id="fighting-buttons">
+			<div class="row">
+				<div class="col-md-2"><button id="attack-btn" type ="button" class="btn">Attack</button></div>
+				<div class="col-md-10"></div>
+			</div>
+			
         </div>
+        
+    <div id="pseudo-console">
+	    <span id="player-did"></span><br>
+	    <span id="enemy-did"></span><br>
+		<button id="next-level" type="button" class="btn">Next Level</button>
+    </div>
+    
+    <div id="stat-panel">
+    <h1></h1>
+    <div class="row"><div class="col-md-6"><span id="player-strength"></span></div><div class="col-md-6"><span id="strength-bonus"></span></div></div>
+    <div class="row"><div class="col-md-6"><span id="player-dexterity"></span></div><div class="col-md-6"><span id="dexterity-bonus"></span></div></div>
+    <div class="row"><div class="col-md-6"><span id="player-willpower"></span></div><div class="col-md-6"><span id="willpower-bonus"></span></div></div>
+    <div class="row"><div class="col-md-6"><span id="player-magic"></span></div><div class="col-md-6"><span id="magic-bonus"></span></div></div>
+    </div>
+    
+    <div id="help-panel">
+    	<h1>Dungeon Crawl Hero</h1>
+    	<p>a: Attack during fight<br>
+    	s: show stats<br>
+    	d: go to next level after defeating boss<br>
+    	h: toggle this Menu<br>
+    	1-9: Use your created spells<br><br>
+    	<h1>The Spells</h1>
+    	<p>When you level up, you can create your own spell! Types of spells:</p>
+    	<ul>
+    		<li>Name: Give your Spell a Name</li>
+    		<li>Type: Damaging (deals damage to your opponent), Healing (restores Health), Enhancing (permanently increases an attribute)</li>
+    		<li>Power: Scale the bar to set the cost and power of the Spell</li>
+    		<li>Upgrade: Choose one Attribute to upgrade. How every Attribute influences your Character is shown in the stats menu ('s')</li>
+    	</ul>
+    	<p>You get a +1 on the Attribute you choose on every Spell you create. If you choose Enhancing as a Type, you won't get a new skill but the increase in stats will be much higher. If you chose a physical Attribute (Strength, Dexterity) your Mana will permanently decline!</p><br>
+    	<h1>Enemies</h1>
+    	<p>You get Experience by fighting enemies (Blue = regular; Green = Boss). If Enemies walk into each other, they combine and become much stronger, so take care of them quick! To clear the Level you need to defeat the Boss (green). The grey squares are Mana Potions. After defeating every Enemy, beside the Boss, in a dungeon, you'll get new equipment.</p>
+    	
+    	
+    </div>
+        
+    <div id="spell-creation">
+    <h1>Spell Creation</h1>
+    <form name="screation">
+    	<div class="row">
+    		<div class="col-md-6">Name of the Spell:</div><div class="col-md-6"><input type="text" name="spellname"></div>
+    	</div>
+    	<div class="row">
+    		<div class="col-md-6">Type of the Spell:</div><div class="col-md-6"><select id="spelltype"><option value="dmg">Damaging</option><option value="heal">Healing</option><option value="upgrade">Enhancing</option></select></div>
+    	</div>
+    	<div class="row">
+    		<div class="col-md-6">Power of the Spell:</div><div class="col-md-6"><input type="range" name="spellpower" min="1" max="100" step = "1" value="50"></div>
+    	</div>
+		<div class="row">
+    		<div class="col-md-6">Upgrade:</div><div class="col-md-6"><select id="upgradetype"><option value="strength">Strength</option><option value="dexterity">Dexterity</option><option value="willpower">Willpower</option><option value="magic">Magic</option></select></div>
+    	</div>
+    	<button type="button" class="btn" id="spell-btn">OK</button>
+    </form>
+    </div>
 	
 	
-
+	</div>
 	<script src = "js/jquery-1.11.3.min.js" type = "text/javascript"></script>
 	<script src = "js/bootstrap.min.js" type = "text/javascript"></script>
 	<script src = "js/main.js" type = "text/javascript"></script>
