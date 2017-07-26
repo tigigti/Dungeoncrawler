@@ -66,7 +66,7 @@ button[id$="-btn"]:hover, .btn:hover {
 	height: 100%;
 }
 
-#spell-creation {
+#spell-creation, #stat-panel, #help-panel {
 	text-align: left;
 	width: 550px;
 	border: 5px solid #42cbf4;
@@ -84,7 +84,7 @@ button[id$="-btn"]:hover, .btn:hover {
 	color: black;
 }
 
-#spell-creation h1 {
+#spell-creation h1, #stat-panel h1, #help-panel h1 {
 	margin: 0;
 	padding: 0;
 	margin-bottom: 15px;
@@ -105,4 +105,10 @@ button[id$="-btn"]:hover, .btn:hover {
 #pseudo-console {
 	position: relative;
 	font-size: 25px;
+}
+
+#help-panel {
+	position: absolute;
+	top: 20%;
+	right: 100%;
 }

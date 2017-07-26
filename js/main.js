@@ -48,8 +48,10 @@ var enemyLog = $("#pseudo-console #enemy-did");
 // var magic = 1;			//increases spell effectivity
 
 function giveBirth(){
+	$("#stat-panel").hide();
 	$("#spell-creation").hide();
 	$("#button-group").hide();
+	$("#help-panel").hide();
 	playerName = prompt("What's the Heros name?");
 	invest = prompt("What is used for magic?");
 	arrowListener();
@@ -61,6 +63,7 @@ function startGame(){
 //	$("#spell-creation").hide();
 //	$("#button-group").hide();
 	$("#next-level").hide();
+	playerLog.text("Press 'h' for help");
 	droppables = [];
     clearCanvas();
     walls = [];
@@ -71,6 +74,7 @@ function startGame(){
         createLevel();
         spawnEnemies();
 		spawnDroppables();
+		sortAllChars();
 		update();
 }
 
@@ -103,8 +107,8 @@ function Character(width, height, color, x, y, type){
 	else if(type == "enemy"){
             var rand = Math.floor(Math.random()*3)+1;
             var randLvl = (Math.floor(Math.random()*player.playerLevel));
-            this.level = Math.min(0 + randLvl, 9);
-            this.atk = this.level+ 1;
+            this.level = Math.min(randLvl, 9);
+            this.atk = Math.max(this.level+ (rand-1),1);
             this.hp = (this.level+1) * rand;
             this.color = upgradeColor[this.level];
             allCharacters.push(this);
@@ -112,7 +116,7 @@ function Character(width, height, color, x, y, type){
         else if(type == "boss"){
             var rand = Math.floor(Math.random()*4)+3; //3-6
 			this.level = player.playerLevel;
-			var randAtk = Math.floor(Math.random()*this.level);
+			var randAtk = Math.floor(Math.random()*this.level)+1;
             this.atk = this.level + randAtk;
             this.hp = this.level*rand;
             boss = this;
@@ -306,7 +310,7 @@ function arrowListener(){
 		// cost = 2*power;
 		var maxCost = (player.playerLevel-1)*10;
 		cost = Math.max(Math.round(maxCost * (power*0.01)),1);
-		power = Math.max(1,Math.round(cost/3));
+		power = Math.max(1,Math.round(cost/2));
 		var nSpell = new spell(cost,power,type,name,upgrade);
 		
 		if(type!="upgrade"){
@@ -340,6 +344,35 @@ function keyListener(){
 		else if(event.keyCode == 40 && !fighting){
 			player.move("down");
 		}
+		else if(event.keyCode == 83 && !fighting){
+			displayStats();
+		}
+		else if(event.keyCode == 65 && fighting){
+			if(!bossFight){
+				normalAttack(player, getEnemyAtPosition(player.x, player.y));
+			}
+			else if(bossFight){
+				normalAttack(player,boss);
+			}
+			update();
+		}
+		else if(event.keyCode == 68 && levelwon){
+			nextLevel();
+		}
+		else if(event.keyCode == 72){
+			$("#help-panel").toggle();
+		}
+		else if(event.keyCode == 49){
+			if(spells.length>0){
+				castSpell(0);
+			}
+		}
+		else if(event.keyCode == 50){
+			if(spells.length>1){
+				castSpell(1);
+			}
+		}
+		
 	});
 }
 
@@ -546,21 +579,22 @@ function getEnemyAtPosition(x,y){
 }
 
 function castSpell(spell){
+	if(spells[spell].type!="upgrade"){
+	var efficiency = spells[spell].power + Math.round(spells[spell].power*((player.magic*2) * 0.01));
 	if(spells[spell].cost > player.mana){
 		playerLog.text("Not enough Mana!");
 	}
-	else if(spells[spell].type=="heal" && spells[spell].cost <= player.mana){
-			var efficiency = spells[spell].power + Math.min(Math.round(0.3 * player.magic),10);
-			player.hp += efficiency;
+	else if(spells[spell].type=="heal" && spells[spell].cost <= player.mana && player.hp < 50){
+			player.hp = Math.min(50,player.hp+efficiency);
 			player.mana -= spells[spell].cost;
-			playerLog.text(playerName+" healed "+efficiency+" Damage");
+			playerLog.text(playerName+" restored "+efficiency+" HP");
 			update();
 		}
 	if(fighting){
 		if(!bossFight){
 		var enemy = getEnemyAtPosition(player.x,player.y);
 		if(spells[spell].type=="dmg" && spells[spell].cost <= player.mana){
-			var efficiency = spells[spell].power + Math.min(Math.round(0.3 * player.magic),17);
+			//var efficiency = spells[spell].power + spells[spell].power*(Math.round((player.magic*2) * 0.01));
 			enemy.hp = enemy.hp - efficiency;
 			player.mana -= spells[spell].cost;
 		playerLog.text(playerName+" casts "+spells[spell].name+" for "+efficiency+" damage!");
@@ -572,7 +606,7 @@ function castSpell(spell){
 	}
 	else if(bossFight){
 		if(spells[spell].type=="dmg" && spells[spell].cost <= player.mana){
-			var efficiency = spells[spell].power + Math.min(Math.round(0.3 * player.magic),17);
+			//var efficiency = spells[spell].power + spells[spell].power*(Math.round((player.magic*2) * 0.01));
 			boss.hp = boss.hp - efficiency;
 			player.mana -= spells[spell].cost;
 			playerLog.text(playerName+" casts "+spells[spell].name+" for "+efficiency+" damage!");
@@ -585,11 +619,11 @@ function castSpell(spell){
 		}
 		update();
 }}
-$("#mana").text("MP: "+player.mana);}
+$("#mana").text("MP: "+player.mana);}}
 
 function upgrade(char){
 	char.hp = (char.level+2)*3;
-	char.atk = (char.level+2)+2;
+	char.atk = (char.level+1)+2;
 	if(char.level < 9){
 		char.level += 1;
 		char.color = upgradeColor[char.level];
@@ -614,7 +648,7 @@ function sortAllChars(){
 }
 
 function normalAttack(player, enemy){
-	var atkDmg = player.weapon.strength + Math.min(Math.round(0.25*player.strength),5);
+	var atkDmg = player.weapon.strength+ Math.round((player.weapon.strength*(0.01*(2*player.strength))));
 	var rng = Math.floor((Math.random()*100)+1);
 	atkDmg = rng+player.dexterity*2 >= 32 ? atkDmg : 0;
 	if(!bossFight){
@@ -694,7 +728,7 @@ function normalizeStats(afterFight){
 		var gain = 1;
 		if(spells[i].type=="upgrade"){
 			gain = gain * spells[i].power;
-			if(spells[i].upgrade!="willpower"){
+			if(spells[i].upgrade!="willpower" && spells[i].upgrade!="magic"){
 				exhaustion += spells[i].cost;
 			}
 		}
@@ -723,8 +757,8 @@ function normalizeStats(afterFight){
 	player.magic = tempMagic;
 	
 	if(!afterFight){
-		player.mana = Math.max(0,17 + 3*player.willpower - exhaustion);
-		player.hp = 29 + player.strength;
+		player.mana = Math.max(0,27 + 3*player.willpower - exhaustion);
+		player.hp = Math.min(29 + player.strength,50);
 	}
 }
 
@@ -786,6 +820,14 @@ function nextLevel(){
 	startGame();
 }
 
+function displayStats(){
+	$("#stat-panel h1").text(playerName);
+	$("#stat-panel #player-strength").text("Strength: "+player.strength);		$("#stat-panel #strength-bonus").text("Attack power: "+(player.weapon.strength+Math.round((player.weapon.strength*(0.01*(2*player.strength))))+". Health Bonus: "+player.strength));
+	$("#stat-panel #player-dexterity").text("Dexterity: "+player.dexterity);	$("#stat-panel #dexterity-bonus").text("Hit rate: "+Math.min(100,(68+player.dexterity*2))+"%. Dodge Rate: "+Math.min(50,player.dexterity*2)+"%");
+	$("#stat-panel #player-willpower").text("Willpower: "+player.willpower);	$("#stat-panel #willpower-bonus").text("Mana Bonus: "+player.willpower*3);
+	$("#stat-panel #player-magic").text("Magic: "+player.magic);				$("#stat-panel #magic-bonus").text("Spell Bonus: "+Math.round(player.magic*2)+"%");
+	$("#stat-panel").toggle();
+}
 function gameover(){
 	round = 0;
 	fighting = false;
